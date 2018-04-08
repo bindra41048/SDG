@@ -8,6 +8,8 @@
   integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
   crossorigin=""></script>
   <script src="jquery-2.1.1.min.js"></script> 
+  <script src="/javascripts/us_counties.js"></script>
+
   <style>
     #map {
       width: 1000px;
@@ -34,6 +36,11 @@
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
+    /*var geojsonTileLayer = new CensusReporter.SummaryLevelLayer('150');
+    map.addLayer(geojsonTileLayer);*/
+
+
+    L.geoJson(us_counties).addTo(map);
 
     /*$.getJSON("http://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_050_00_5m.json", function(data) {
       L.geoJson(data).addTo(map);
