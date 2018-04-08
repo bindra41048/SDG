@@ -36,17 +36,8 @@
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    /*var geojsonTileLayer = new CensusReporter.SummaryLevelLayer('150');
-    map.addLayer(geojsonTileLayer);*/
-
 
     L.geoJson(us_counties).addTo(map);
-
-    /*$.getJSON("http://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_050_00_5m.json", function(data) {
-      L.geoJson(data).addTo(map);
-    });
-
-    var geojson = L.geoJson('http://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_050_00_5m.json').addTo(map);*/
 
   </script>
 
