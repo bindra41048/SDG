@@ -8,7 +8,10 @@ Created by:
 **This is a readme**
 
 ## LINKS ##
-[Wireframe prototypes](https://docs.google.com/presentation/d/12ZthBMVZAdCUDZj3cr6sEFOrQlgefU77mjCo4N2aYVg/edit?usp=sharing)
+* [Wireframe prototypes Google Doc](https://docs.google.com/presentation/d/12ZthBMVZAdCUDZj3cr6sEFOrQlgefU77mjCo4N2aYVg/edit?usp=sharing)
+* [Leaflet tutorial](http://spatialcarpentry.github.io/cartography/show%20your%20results/leaflet/)
+* [GeoJSON data](http://eric.clst.org/tech/usgeojson/)
+* [Node.js debugger](https://nodejs.org/api/debugger.html)
 
 ## HOW TO START ##
 * Make sure you've downloaded Node.js and npm
