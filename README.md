@@ -8,7 +8,7 @@ Created by:
 **This is a readme**
 
 ## LINKS ##
-* [Wireframe prototypes Google Doc](https://docs.google.com/presentation/d/12ZthBMVZAdCUDZj3cr6sEFOrQlgefU77mjCo4N2aYVg/edit?usp=sharing)
+* [Wireframe prototypes Google Doc](https://docs.google.com/presentation/d/19BCDviMSk3s_VIdAQ38V3_ZXrIg4IAug3f2fSjoTf8o/edit?usp=sharing)
 * [Leaflet tutorial](http://spatialcarpentry.github.io/cartography/show%20your%20results/leaflet/)
 * [another Leaflet tutorial](https://maptimeboston.github.io/leaflet-intro/)
 * [GeoJSON data](http://eric.clst.org/tech/usgeojson/)
