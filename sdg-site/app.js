@@ -7,6 +7,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var censusRouter = require('./routes/census-calls');
 
 var app = express();
 
@@ -20,7 +21,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users/', usersRouter);
+app.use('/census/', censusRouter);
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
