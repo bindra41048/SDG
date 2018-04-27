@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session')
 var logger = require('morgan');
 var passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
@@ -51,6 +52,7 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieSession({secret: process.env.SECRET}));
 app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
 // Check logged in
