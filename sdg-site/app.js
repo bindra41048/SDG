@@ -3,13 +3,14 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
-var cookieSession = require('cookie-session')
+var cookieSession = require('cookie-session');
+var ensureLoggedIn = require('connect-ensure-login');
 var logger = require('morgan');
 var passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var userRouter = require('./routes/user');
 var censusRouter = require('./routes/census-calls');
 
 //use Passport for Auth0
@@ -65,7 +66,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', indexRouter);
-app.use('/users/', usersRouter);
+//app.use('/user/', userRouter);
 app.use('/census/', censusRouter);
 
 app.use(function(req, res, next) {

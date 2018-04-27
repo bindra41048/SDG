@@ -1,5 +1,6 @@
 var express = require('express');
 var passport = require('passport');
+var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 var router = express.Router();
 
 const env = {
@@ -30,6 +31,8 @@ router.get('/login', passport.authenticate('auth0', {
     res.redirect("/");
 });
 
+//router.post('/login', passport.authenticate('local', { successReturnToOrRedirect: '/', failureRedirect: '/login' }));
+
 router.get('/logout', function(req, res) {
   req.logout();
   res.redirect('/');
@@ -43,5 +46,14 @@ router.get('/callback',
     res.redirect(req.session.returnTo || '/user');
   }
 );
+
+router.get('/user',
+  ensureLoggedIn('/login'),
+  function(req, res, next) {
+  res.render('user', {
+    user: req.user,
+    userProfile: JSON.stringify(req.user, null, '  ')
+  });
+});
 
 module.exports = router;
