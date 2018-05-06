@@ -1,7 +1,8 @@
 var request = require('request');
 var express = require('express');
 var router = express.Router();
-const base = require('airtable').base('apppmNzTuAz1IThj2');
+var Airtable = require('airtable')
+var base = new Airtable({apiKey:process.env.AIRTABLE_KEY}).base('apppmNzTuAz1IThj2');
 const ca_fips = "06";
 const santa_clara_fips = "085";
 const neighborhood_tag = "NGBRHD2";
