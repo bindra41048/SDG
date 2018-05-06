@@ -4,13 +4,12 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
-var ensureLoggedIn = require('connect-ensure-login');
 var logger = require('morgan');
 var passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
 
 var indexRouter = require('./routes/index');
-var userRouter = require('./routes/user');
+//var userRouter = require('./routes/user');
 var censusRouter = require('./routes/census-calls');
 
 //use Passport for Auth0

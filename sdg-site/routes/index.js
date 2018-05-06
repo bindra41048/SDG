@@ -1,6 +1,7 @@
 var express = require('express');
 var passport = require('passport');
-var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
+var cookieSession = require('cookie-session');
+var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
 var router = express.Router();
 
 const env = {
@@ -26,10 +27,20 @@ router.get('/login', passport.authenticate('auth0', {
   redirectUri: env.AUTH0_CALLBACK_URL,
   responseType: 'code',
   audience: 'https://' + env.AUTH0_DOMAIN + '/userinfo',
-  scope: 'openid profile'}),
+  scope: 'openid profile'
+  }),
   function(req, res) {
-    res.redirect("/");
+    res.redirect('/');
 });
+
+/*router.get('/login',
+  passport.authenticate('auth0', {}), function(req, res) {
+    res.redirect("/");
+});*/
+
+router.post('/login', passport.authenticate('local', { successReturnToOrRedirect: '/', failureRedirect: '/login' }));
+
+
 
 //router.post('/login', passport.authenticate('local', { successReturnToOrRedirect: '/', failureRedirect: '/login' }));
 
@@ -40,20 +51,40 @@ router.get('/logout', function(req, res) {
 
 router.get('/callback',
   passport.authenticate('auth0', {
-    failureRedirect: '/failure'
+    failureRedirect: '/login'
   }),
   function(req, res) {
-    res.redirect(req.session.returnTo || '/user');
+    if (!req.user) {
+      throw new Error('user null');
+    }
+    req.session.user = req.user;
+    res.redirect('/user');
+    /*res.render('user', {
+      user: req.user,
+      userProfile: JSON.stringify(req.user, null, '  ')
+    });*/
+    //res.redirect(req.session.returnTo || '/user');
   }
 );
 
 router.get('/user',
-  ensureLoggedIn('/login'),
+  //ensureLoggedIn('/login'),
   function(req, res, next) {
-  res.render('user', {
-    user: req.user,
-    userProfile: JSON.stringify(req.user, null, '  ')
+  //console.log("user get");
+    res.render('user', {
+      user: req.session.user,
+      userProfile: JSON.stringify(req.session.user, null, '  ')
   });
 });
+
+/*router.get('/failure', function(req, res) {
+  var error = req.flash("error");
+  var error_description = req.flash("error_description");
+  req.logout();
+  res.render('failure', {
+    error: error[0],
+    error_description: error_description[0],
+  });
+});*/
 
 module.exports = router;
