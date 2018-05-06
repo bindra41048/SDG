@@ -14,6 +14,9 @@ const metric_index = 1;
 const population_index = 2;
 const tract_index = 5;
 const bg_index = 6;
+const neighborhood_geojson_path = "./../public/javascripts/neighborhood.json";
+
+var neighborhood_geojson = require(neighborhood_geojson_path);
 
 
 function is_pos_int(str) {
@@ -67,7 +70,15 @@ function populate_metric_mapping(block_group_stats, bg_to_metric) {
     var block_group_id = tract + block_group_num;
     bg_to_metric[block_group_id] = {};
     bg_to_metric[block_group_id]["population"] = Number(population);
-    bg_to_metric[block_group_id]["metric"] = Number(bg_metric);
+    bg_to_metric[block_group_id]["metric"] = 100 * Number(bg_metric);
+  }
+}
+
+function update_geojson(geojson, metrics) {
+  for (var i = 0; i < geojson.features.length; i++) {
+    var neighborhood = geojson.features[i]["properties"]["NGBRHD2"];
+    var matching_metric = metrics[neighborhood];
+    geojson.features[i]["properties"]["metric"] = matching_metric;
   }
 }
 
@@ -79,6 +90,7 @@ function populate_metric_mapping(block_group_stats, bg_to_metric) {
  * where metric is number under poverty
  */
 router.get('/sjneighborhoods', function(req, res,next) {
+  var neighborhood_geometry = Object.assign({}, neighborhood_geojson);
   var year = req.query.year;
   var tag = req.query.tag;
   var nb_to_bg = {};
@@ -110,7 +122,8 @@ router.get('/sjneighborhoods', function(req, res,next) {
             res.status(404).end(err);
           } else {
             populate_neighborhood_metrics(nb_to_bg, neighborhood_metrics, bg_to_metric);
-            res.status(200).end(JSON.stringify(neighborhood_metrics));
+            update_geojson(neighborhood_geometry, neighborhood_metrics);
+            res.status(200).end(JSON.stringify(neighborhood_geometry));
           }
         });
       }
