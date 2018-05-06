@@ -1,8 +1,8 @@
 var request = require('request');
 var express = require('express');
 var router = express.Router();
-var Airtable = require('airtable')
-var base = new Airtable({apiKey:process.env.AIRTABLE_KEY}).base('apppmNzTuAz1IThj2');
+var airtable = require('airtable');
+var base = new airtable({apiKey:process.env.AIRTABLE_KEY}).base('apppmNzTuAz1IThj2');
 const ca_fips = "06";
 const santa_clara_fips = "085";
 const neighborhood_tag = "NGBRHD2";
@@ -120,7 +120,7 @@ router.get('/sjneighborhoods', function(req, res,next) {
           fetchNextPage();
         }, function done(err) {
           if (err) {
-            res.status(404).end(err);
+            res.status(404);
           } else {
             populate_neighborhood_metrics(nb_to_bg, neighborhood_metrics, bg_to_metric);
             update_geojson(neighborhood_geometry, neighborhood_metrics);

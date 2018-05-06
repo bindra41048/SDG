@@ -33,16 +33,7 @@ router.get('/login', passport.authenticate('auth0', {
     res.redirect('/');
 });
 
-/*router.get('/login',
-  passport.authenticate('auth0', {}), function(req, res) {
-    res.redirect("/");
-});*/
-
 router.post('/login', passport.authenticate('local', { successReturnToOrRedirect: '/', failureRedirect: '/login' }));
-
-
-
-//router.post('/login', passport.authenticate('local', { successReturnToOrRedirect: '/', failureRedirect: '/login' }));
 
 router.get('/logout', function(req, res) {
   req.logout();
@@ -59,32 +50,16 @@ router.get('/callback',
     }
     req.session.user = req.user;
     res.redirect('/user');
-    /*res.render('user', {
-      user: req.user,
-      userProfile: JSON.stringify(req.user, null, '  ')
-    });*/
-    //res.redirect(req.session.returnTo || '/user');
   }
 );
 
 router.get('/user',
   //ensureLoggedIn('/login'),
   function(req, res, next) {
-  //console.log("user get");
     res.render('user', {
       user: req.session.user,
       userProfile: JSON.stringify(req.session.user, null, '  ')
   });
 });
-
-/*router.get('/failure', function(req, res) {
-  var error = req.flash("error");
-  var error_description = req.flash("error_description");
-  req.logout();
-  res.render('failure', {
-    error: error[0],
-    error_description: error_description[0],
-  });
-});*/
 
 module.exports = router;
