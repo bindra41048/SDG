@@ -9,7 +9,6 @@ var passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
 
 var indexRouter = require('./routes/index');
-//var userRouter = require('./routes/user');
 var censusRouter = require('./routes/census-calls');
 
 //use Passport for Auth0
@@ -65,7 +64,6 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', indexRouter);
-//app.use('/user/', userRouter);
 app.use('/census/', censusRouter);
 
 app.use(function(req, res, next) {

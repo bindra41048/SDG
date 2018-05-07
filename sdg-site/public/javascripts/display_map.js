@@ -15,7 +15,7 @@ function createMap(lat, lng) {
   */
 
 
-  // NOTE: most of code below is taken from/ adapated from Leaflet tutorial on geojson.
+  // NOTE: most of code below is taken from/ adapted from Leaflet tutorial on geojson.
   // See here: https://leafletjs.com/examples/choropleth/
 
 
