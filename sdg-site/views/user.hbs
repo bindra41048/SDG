@@ -1,19 +1,26 @@
 <head>
   <meta charset="UTF-8">
   <title>SDG Site</title>
+  <link rel="stylesheet" href="stylesheets/style.css"/>
 
 </head>
 
 <body>
 
 <div class="content">
-  <img src={{user.picture}}>
-  <h1>Welcome {{user.nickname}}!</h1>
-  <br>
-  <h2>User Profile</h2>
-  {{{userProfile}}}
-  <br>
-  <a href='/logout'>Logout</a>
+  <div id="userpic">
+    <img src={{user.picture}} height="50" width="50">
+  </div>
+  <div id="username">
+    <h2>Welcome {{user.nickname}}!</h2>
+  </div>
+  <div id="logout">
+    <h2><a href='/logout'>Logout</a></h2>
+  </div>
+</div>
+
+<div class="bodytext">
+  <p>Your email is: {{user.displayName}}.</b>
 </div>
 
 </body>

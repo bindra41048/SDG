@@ -7,14 +7,49 @@ a {
   color: #00B7FF;
 }
 
+#login {
+  float: right;
+  flex-grow: 1;
+  font-size: small;
+  padding-top: 20px;
+  padding-left: 350px;
+}
+
+#logout {
+  padding: 10px;
+  float: right;
+  flex-grow: 1;
+  font-size: small;
+  padding-left: 150px;
+}
+
 #map {
   width: 1000px;
   height: 600px;
 }
 
+#title {
+  width: 500px;
+  font-size: medium;
+}
+
+#username {
+  padding: 10px;
+}
+
+#userpic {
+  padding: 10px;
+  padding-top: 15px;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+
 .info {
   padding: 6px 8px;
-  font: 14px/16px Arial, Helvetica, sans-serif;
+  font: 14px/16px "Lucida Grande", Helvetica, Arial, sans-serif;
   background: white;
   background: rgba(255,255,255,0.8);
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
