@@ -1,0 +1,1 @@
+web: DEBUG=sdg-site:* npm run devstart
