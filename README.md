@@ -19,3 +19,6 @@ Created by:
 * Make sure you've downloaded Node.js and npm
 * In Terminal, run `DEBUG=sdg-site:* npm run devstart`
 * In a browser, visit `http://localhost:3000/`
+* To push to Heroku, run `git push heroku master`
+* Ask one of us to be added to the Heroku aspect of the project, the Auth0 aspect of the project
+* Also ask one of us for access to the .env file which will *not* be automatically synced from here as it contains passwords etc.
