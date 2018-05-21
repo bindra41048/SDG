@@ -10,6 +10,7 @@ const Auth0Strategy = require('passport-auth0');
 
 var indexRouter = require('./routes/index');
 var censusRouter = require('./routes/census-calls');
+var compactsRouter = require('./routes/compacts');
 
 //use Passport for Auth0
 const strategy = new Auth0Strategy(
@@ -65,6 +66,7 @@ app.use(function(req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/census/', censusRouter);
+app.use('/compacts/', compactsRouter);
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

@@ -59,7 +59,9 @@ router.get('/index',
       user: req.session.user
     })
   }
-)
+);
+
+
 
 /*router.get('/user',
   //ensureLoggedIn('/login'),
