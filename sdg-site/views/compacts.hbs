@@ -10,7 +10,9 @@
   <h1>Compacts!</h1>
   <h3>Hello {{user.nickname}} !</h3>
   <p>Here you can view existing compacts.</p>
-  
+  {{#compactFn compacts}}
+    <p>{{id}}&emsp;{{year}}&emsp;{{name}}</p>
+  {{/compactFn}}
 </div>
 
 </body>

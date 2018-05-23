@@ -1,6 +1,7 @@
 require('dotenv').config();
 var express = require('express');
 var path = require('path');
+var expressHandlebars = require('express-handlebars');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
@@ -11,6 +12,13 @@ const Auth0Strategy = require('passport-auth0');
 var indexRouter = require('./routes/index');
 var censusRouter = require('./routes/census-calls');
 var compactsRouter = require('./routes/compacts');
+
+/*var hbs = expressHandlebars.create({
+  helpers: require("./public/javascripts/handlebars.js").helpers,
+  defaultLayout: 'layout',
+  extname: '.hbs'
+});*/
+//var handlebars = require('./public/javascripts/handlebars.js')(expressHandlebars);
 
 //use Passport for Auth0
 const strategy = new Auth0Strategy(
@@ -42,8 +50,23 @@ passport.deserializeUser(function(user, done) {
 
 var app = express();
 
+/* View stuff */
+
+app.engine("hbs", expressHandlebars({
+  extname: '.hbs'
+}));
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+app.set('view engine', "hbs");
+var hbs = require('handlebars');
+hbs.registerHelper("compactFn", function(context, options) {
+      var ret = "<ul>";
+      console.log(context.length);
+      for (var i = 0, j = context.length; i < j; i++) {
+        ret = ret + "<li>" + options.fn(context[i]) + "</li>";
+      }
+      return ret + "</ul>";
+});
+
 
 app.use(logger('dev'));
 app.use(express.json());
