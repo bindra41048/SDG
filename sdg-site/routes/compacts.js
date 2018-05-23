@@ -12,13 +12,9 @@ router.get('/view',
     }).eachPage(function page(records, fetchNextPage) {
         records.forEach(function(record) {
             var id = record.get('id');
-            console.log(id);
             var year = record.get('year');
-            console.log(year);
             var name = record.get('name');
-            console.log(name);
             compacts_struct.push({'id': id, 'year': year, 'name': name});
-            console.log(compacts_struct);
         });
         fetchNextPage();
 
