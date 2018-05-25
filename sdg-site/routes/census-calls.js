@@ -1,3 +1,4 @@
+var async = require('async');
 var request = require('request');
 var express = require('express');
 var router = express.Router();
@@ -44,23 +45,26 @@ function add_record_to_mapping(nb_to_bg, record) {
  * compute the rate of incidence of the metric as the sum of counts of block groups in
  * the neighborhood divided by their total population.
 */
-function populate_neighborhood_metrics(nb_to_bg, neighborhood_metrics, bg_to_metric) {
+function populate_neighborhood_metrics(nb_to_bg, neighborhood_metrics, bg_to_metric, year) {
   for (var neighborhood in nb_to_bg) {
     var block_groups = nb_to_bg[neighborhood];
     var metric_aggregate = 0;
     var population_aggregate = 0;
     for (var i = 0; i < block_groups.length; i++) {
       var block = block_groups[i];
-      var metric = bg_to_metric[block]["metric"];
+      var metric = bg_to_metric[block]["metric"][year];
       var population = bg_to_metric[block]["population"];
       metric_aggregate += metric;
       population_aggregate += population;
     }
-    neighborhood_metrics[neighborhood] = metric_aggregate / population_aggregate;
+    if (!neighborhood_metrics.hasOwnProperty(neighborhood)) {
+      neighborhood_metrics[neighborhood] = {};
+    }
+    neighborhood_metrics[neighborhood][year] = metric_aggregate / population_aggregate;
   }
 }
 
-function populate_metric_mapping(block_group_stats, bg_to_metric) {
+function populate_metric_mapping(block_group_stats, bg_to_metric, year) {
   //block_group_stats is a 2D array where each array contains data on a given block group of the form
   // ["NAME","Metric", "Population","state","county","tract","block group"],
   for (var i = 1; i < block_group_stats.length; i++) {
@@ -71,70 +75,24 @@ function populate_metric_mapping(block_group_stats, bg_to_metric) {
     var block_group_id = tract + block_group_num;
     bg_to_metric[block_group_id] = {};
     bg_to_metric[block_group_id]["population"] = Number(population);
-    bg_to_metric[block_group_id]["metric"] = 100 * Number(bg_metric);
+    if (!bg_to_metric[block_group_id].hasOwnProperty["metric"]) {
+      bg_to_metric[block_group_id]["metric"] = {};
+    }
+    bg_to_metric[block_group_id]["metric"][year] = 100 * Number(bg_metric);
   }
 }
 
-function update_geojson(geojson, metrics) {
+function update_geojson(geojson, metrics, year) {
   for (var i = 0; i < geojson.features.length; i++) {
     var neighborhood = geojson.features[i]["properties"]["NGBRHD2"];
-    var matching_metric = metrics[neighborhood];
-    geojson.features[i]["properties"]["metric"] = matching_metric;
+    var matching_metric = metrics[neighborhood][year];
+    if (!geojson.features[i]["properties"].hasOwnProperty("metric")) {
+        geojson.features[i]["properties"]["metric"] = {};
+    }
+    geojson.features[i]["properties"]["metric"][year] = matching_metric;
+    console.log(geojson.features[i]["properties"]);
   }
 }
-
-
-/*
- * Extract metric for all neighborhoods in SJ county as weighted average of block group level metrics.
- * Based on neighborhood to block group mapping provided by Santa Clara.
- * Example curl request: curl "http://localhost:3000/census/sjneighborhoods?year=2016&tag=B17021_002E"
- * where metric is number under poverty
- */
-router.get('/sjneighborhoods', function(req, res,next) {
-  var neighborhood_geometry = Object.assign({}, neighborhood_geojson);
-  var year = req.query.year;
-  var tag = req.query.tag;
-  var nb_to_bg = {};
-  var neighborhood_metrics = {}
-  // sanity check - make sure year passed in and tag are valid
-  if (is_pos_int(year) && tag) {
-    var url = "https://api.census.gov/data/" + year +
-      "/acs/acs5?get=NAME," + tag + "," + population_tag + "&for=block%20group:*&in=state:" + ca_fips +
-      "%20county:" + santa_clara_fips;
-    request(url, function(error, response, body) {
-      if (error) {
-        res.status(404).end(error);
-      } else {
-        var block_group_stats = JSON.parse(body);
-        var bg_to_metric = {};
-        populate_metric_mapping(block_group_stats, bg_to_metric);
-
-        // extract full list of records of block group to neighborhood
-        base('Neighborhoods').select({
-          view: "Grid view"
-        }).eachPage(function page(records, fetchNextPage) {
-          records.forEach(function(record) {
-            add_record_to_mapping(nb_to_bg, record);
-          });
-          // retrieves next page of records until no records remain
-          fetchNextPage();
-        }, function done(err) {
-          if (err) {
-            res.status(404);
-          } else {
-            populate_neighborhood_metrics(nb_to_bg, neighborhood_metrics, bg_to_metric);
-            update_geojson(neighborhood_geometry, neighborhood_metrics);
-            res.status(200).end(JSON.stringify(neighborhood_geometry));
-          }
-        });
-      }
-    });
-  } else {
-    res.status(400).end("Invalid year and tag parameters passed");
-  }
-});
-
-
 
 /*
 Extract population for each census tract and block level group in a given
@@ -160,6 +118,67 @@ router.get('/block', function(req, res, next) {
   } else {
     res.status(404).end("Invalid parameters passed");
   }
+});
+
+//example curl "http://localhost:3000/census/sjhistory?start_year=2015&end_year=2016&tag=B17021_002E"
+router.get('/sjhistory', function(req, res, next) {
+  var neighborhood_geometry = Object.assign({}, neighborhood_geojson);
+  var start_year = req.query.start_year;
+  var end_year = req.query.end_year;
+  var tag = req.query.tag;
+  if (!is_pos_int(start_year) || !is_pos_int(end_year) || !tag || Number(start_year) > Number(end_year)) {
+    res.status(404).end("Invalid parameters passed");
+    return;
+  }
+  var years = {};
+  var block_group_history = {};
+  for (var i = Number(start_year); i <= Number(end_year); i++) {
+    years[i.toString()] = {};
+  }
+  async.forEachOf(years, function(value, key, callback) {
+    var url = "";
+    if (Number(key) >= 2015) {
+      url += "https://api.census.gov/data/" + key + "/acs/acs5?";
+    } else {
+      url += "https://api.census.gov/data/" + key + "/acs5?";
+    }
+    url += "get=NAME," + tag + "," + population_tag + "&for=block%20group:*&in=state:" + ca_fips +
+      "%20county:" + santa_clara_fips;
+    request(url, function(error, response, body) {
+      if (error) {
+        res.status(404).end(error);
+      } else {
+        var block_group_stats = JSON.parse(body);
+        var bg_to_metric = {};
+        var nb_to_bg = {};
+        var neighborhood_metrics = {};
+        populate_metric_mapping(block_group_stats, bg_to_metric, key);
+        base('Neighborhoods').select({
+          view: "Grid view"
+        }).eachPage(function page(records, fetchNextPage) {
+          records.forEach(function(record) {
+            add_record_to_mapping(nb_to_bg, record);
+          });
+          // retrieves next page of records until no records remain
+          fetchNextPage();
+        }, function done(err) {
+          if (err) {
+            res.status(404),end(err);
+          } else {
+            populate_neighborhood_metrics(nb_to_bg, neighborhood_metrics, bg_to_metric, key);
+            update_geojson(neighborhood_geometry, neighborhood_metrics, key);
+            callback();
+          }
+        });
+      }
+    });
+  }, function (err) {
+    if (err) {
+      res.status(404).end(err);
+    } else {
+      res.status(200).end(JSON.stringify(neighborhood_geometry));
+    }
+  });
 });
 
 module.exports = router;

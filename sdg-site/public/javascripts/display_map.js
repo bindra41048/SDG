@@ -1,3 +1,5 @@
+const most_recent_year = 2016;
+
 function createMap(lat, lng) {
   var map = L.map('map').setView([lat, lng], 11);
   var geojson;
@@ -38,7 +40,7 @@ function createMap(lat, lng) {
   // sets style of map
   function style(feature) {
     return {
-      fillColor: getColor(feature.properties.metric),
+      fillColor: getColor(feature["properties"]["metric"][most_recent_year]),
       weight: 2,
       opacity: 0.5,
       color: 'white',
@@ -89,7 +91,7 @@ function createMap(lat, lng) {
   // method that we will use to update the control based on feature properties passed
   info.update = function (props) {
     this._div.innerHTML = '<h4>Metric</h4>' +  (props ?
-      '<b>' + props.NGBRHD2 + '</b><br />' + props.metric.toFixed(2) + ' percent'
+      '<b>' + props.NGBRHD2 + '</b><br />' + props.metric[most_recent_year].toFixed(2) + ' percent'
       : 'Hover over a neighborhood');
   };
 
@@ -101,7 +103,8 @@ function createMap(lat, lng) {
    */
   xhr = new XMLHttpRequest();
   xhr.onreadystatechange = xhrHandler;
-  xhr.open("GET", "/census/sjneighborhoods?year=2016&tag=B17021_002E");
+  xhr.open("GET", "/census/sjhistory?start_year=" + most_recent_year.toString() +
+    "&end_year=" + most_recent_year.toString() + "&tag=B17021_002E");
   xhr.send();
 
   // handles HTTP responses
