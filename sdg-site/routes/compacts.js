@@ -65,7 +65,8 @@ router.get('/:id',
       res.render('one_compact', {
         compact: {'id': id, 'year': record.get('year'), 'name': record.get('name')},
         user: req.session.user,
-        edit_url: "/compacts/edit/" + id
+        edit_url: "/compacts/edit/" + id,
+        delete_url: "/compacts/delete/" + id
       });
     });
 });
@@ -93,6 +94,14 @@ router.post('/edit/:id',
     });
     res.redirect('/compacts/' + id);
     //TODO: validate lol
+});
+
+router.get('/delete/:id', function(req, res, next) {
+   var id = req.params.id;
+   base('Compacts').destroy(id, function(err, record) {
+     if (err) { console.error(err); return; } //need to make more robust
+   });
+   res.redirect('/compacts/view');
 });
 
 module.exports = router;
