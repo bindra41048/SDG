@@ -1,0 +1,23 @@
+<head>
+  <meta charset="UTF-8">
+  <title>SDG Site</title>
+
+</head>
+
+<body>
+
+<div class="content">
+  <a href="/index">Back</a>
+  <h1>Compacts!</h1>
+  <h3>Hello {{user.nickname}} !</h3>
+  <p>Here you can edit your compact.</p>
+  <form method="post">
+    <label for="compact_name">Compact name: </label>
+    <input id="compact_name" type="text" name="name_field" value={{compact.name}}>
+    <label for="compact_year">Compact year: </label>
+    <input id="compact_year" type="text" name="year_field" value={{compact.year}}>
+    <input type="submit" value="OK">
+  </form>
+</div>
+
+</body>
