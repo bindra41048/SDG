@@ -18,7 +18,8 @@ router.get('/view',
             var id = record.id;
             var year = record.get('year');
             var name = record.get('name');
-            compacts_struct.push({'id': id, 'year': year, 'name': name});
+            var user = record.get('user');
+            compacts_struct.push({'id': id, 'year': year, 'name': name, 'user': user});
         });
         fetchNextPage();
 
@@ -48,7 +49,8 @@ router.post('/new',
   function(req, res, next) {
     base('Compacts').create({
       "year": req.body.year_field,
-      "name": req.body.name_field
+      "name": req.body.name_field,
+      "user": req.session.user.user_id
     }, function (err, record) {
       if (err) { console.error(err); return; } //need to make more robust
       //console.log(record.getId());
@@ -63,10 +65,11 @@ router.get('/:id',
     base('Compacts').find(id, function(err, record) {
       if (err) {console.error(err); return;} //need to make more robust
       res.render('one_compact', {
-        compact: {'id': id, 'year': record.get('year'), 'name': record.get('name')},
+        compact: {'id': id, 'year': record.get('year'), 'name': record.get('name'), 'user': record.get('user')},
         user: req.session.user,
         edit_url: "/compacts/edit/" + id,
-        delete_url: "/compacts/delete/" + id
+        delete_url: "/compacts/delete/" + id,
+        userCanEdit: record.get('user') === req.session.user.user_id
       });
     });
 });
@@ -76,10 +79,14 @@ router.get('/edit/:id',
     var id = req.params.id;
     base('Compacts').find(id, function(err, record) {
       if (err) {console.error(err); return;} //need to make more robust
-      res.render('edit_compact', {
-        compact: {'id': id, 'year': record.get('year'), 'name': record.get('name')},
-        user: req.session.user
-      });
+      if (record.get('user') === req.session.user.user_id) {
+        res.render('edit_compact', {
+          compact: {'id': id, 'year': record.get('year'), 'name': record.get('name')},
+          user: req.session.user
+        });
+      } else {
+        res.redirect('/compacts/' + id);
+      }
     });
 });
 
@@ -98,8 +105,13 @@ router.post('/edit/:id',
 
 router.get('/delete/:id', function(req, res, next) {
    var id = req.params.id;
-   base('Compacts').destroy(id, function(err, record) {
-     if (err) { console.error(err); return; } //need to make more robust
+   base('Compacts').find(id, function (err, record) {
+     if (err) { console.error(err); return; } //make more robust
+     if (record.get('user') === req.session.user.user_id) {
+       base('Compacts').destroy(id, function(err, record) {
+         if (err) { console.error(err); return; } //need to make more robust
+       });
+     }
    });
    res.redirect('/compacts/view');
 });

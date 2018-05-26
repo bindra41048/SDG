@@ -11,15 +11,17 @@
   <h1>Compacts!</h1>
   <h3>Hello {{user.nickname}} !</h3>
   <p>Here is the compact you selected.</p>
-  <p>{{compact.id}}&emsp;{{compact.year}}&emsp;{{compact.name}}</p>
+  <p>{{compact.id}}&emsp;{{compact.year}}&emsp;{{compact.name}}&emsp;{{compact.user}}</p>
   <p>Would you like to make a new compact?</p>
   <a href="/compacts/new">New Compact</a>
   <p>Would you like to view all compacts?</p>
   <a href="/compacts/view">View all compacts</a>
-  <p>Would you like to edit this compact?</p>
-  <a href="{{edit_url}}">Edit compact</a>
-  <p>Would you like to delete this compact?</p>
-  <a href="{{delete_url}}">Delete compact</a>
+  {{#if userCanEdit}}
+    <p>Would you like to edit this compact?</p>
+    <a href="{{edit_url}}">Edit compact</a>
+    <p>Would you like to delete this compact?</p>
+    <a href="{{delete_url}}">Delete compact</a>
+  {{/if}}
 </div>
 
 </body>
