@@ -12,10 +12,14 @@
   <h3>Hello {{user.nickname}} !</h3>
   <p>Here you can edit your compact.</p>
   <form method="post">
-    <label for="compact_name">Compact name: </label>
-    <input id="compact_name" type="text" name="name_field" value="{{compact.name}}">
-    <label for="compact_year">Compact year: </label>
-    <input id="compact_year" type="text" name="year_field" value="{{compact.year}}">
+    <label for="compact_indic">Indicator: </label>
+    <input id="compact_indic" type="text" name="indicator" value="{{compact.indicator}}">
+    <label for="compact_metric">Metric: </label>
+    <input id="compact_metric" type="text" name="metric" value="{{compact.metric}}">
+    <label for="location">Location: </label>
+    <input id="location" type="text" name="location" value="{{compact.location}}">
+    <label for="milestones">Milestones: </label>
+    <input id="milestones" type="text" name="milestones" value="{{compact.milestones}}">
     <input type="submit" value="OK">
   </form>
 </div>

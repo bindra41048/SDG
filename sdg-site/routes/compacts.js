@@ -7,6 +7,23 @@ const {body, validationResult} = require('express-validator/check');
 const {sanitizeBody} = require('express-validator/filter');
 
 
+function packageRecord(record) {
+  var id = record.id;
+  var indicator = record.get('indicator');
+  var metric = record.get('metric');
+  var location = record.get('location');
+  var milestones = record.get('milestones');
+  var last_modified = record.get('last_modified');
+  return {
+    'id': id,
+    'indicator': indicator,
+    'metric': metric,
+    'location': location,
+    'milestones': milestones,
+    'last_modified': last_modified
+  };
+}
+
 router.get('/view',
   function(req, res, next) {
     compacts_struct = [];
@@ -14,27 +31,16 @@ router.get('/view',
         view: "Grid view"
     }).eachPage(function page(records, fetchNextPage) {
         records.forEach(function(record) {
-            console.log(record.id);
-            var id = record.id;
-            var year = record.get('year');
-            var name = record.get('name');
-            var user = record.get('user');
-            compacts_struct.push({'id': id, 'year': year, 'name': name, 'user': user});
+            compacts_struct.push(packageRecord(record));
         });
         fetchNextPage();
-
     }, function done(err) {
         if (err) {console.error(err); return; }
         res.render('compacts', {
           compacts: compacts_struct,
-          //title: 'SDG Site',
-          //lat: 37.3382,
-          //lng: -121.8863,
-          //key: 'pk.eyJ1Ijoic3RhbmZvcmRzdXMiLCJhIjoiY2pmcjhtenJ5MGh4ZzMycDd0ajkxMHZobiJ9.JU52RKwVG17CJx1Cyj9Siw',
           user: req.session.user
         });
     });
-    //compacts_struct.push({'id': 0, 'year': 2010, 'name': 'sample'});
   }
 );
 
@@ -47,9 +53,13 @@ router.get('/new',
 
 router.post('/new',
   function(req, res, next) {
+    var now = new Date();
     base('Compacts').create({
-      "year": req.body.year_field,
-      "name": req.body.name_field,
+      "indicator": req.body.indicator,
+      "metric": req.body.metric,
+      "location": req.body.location,
+      "milestones": req.body.milestones,
+      "last_modified": now.toString(),
       "user": req.session.user.user_id
     }, function (err, record) {
       if (err) { console.error(err); return; } //need to make more robust
@@ -64,8 +74,9 @@ router.get('/:id',
     var id = req.params.id;
     base('Compacts').find(id, function(err, record) {
       if (err) {console.error(err); return;} //need to make more robust
+      var packaged_record = packageRecord(record);
       res.render('one_compact', {
-        compact: {'id': id, 'year': record.get('year'), 'name': record.get('name'), 'user': record.get('user')},
+        compact: packaged_record,
         user: req.session.user,
         edit_url: "/compacts/edit/" + id,
         delete_url: "/compacts/delete/" + id,
@@ -81,7 +92,7 @@ router.get('/edit/:id',
       if (err) {console.error(err); return;} //need to make more robust
       if (record.get('user') === req.session.user.user_id) {
         res.render('edit_compact', {
-          compact: {'id': id, 'year': record.get('year'), 'name': record.get('name')},
+          compact: packageRecord(record),
           user: req.session.user
         });
       } else {
@@ -93,9 +104,13 @@ router.get('/edit/:id',
 router.post('/edit/:id',
   function(req, res, next) {
     var id = req.params.id;
+    var now = new Date();
     base('Compacts').update(id, {
-      "year": req.body.year_field,
-      "name": req.body.name_field
+      "indicator": req.body.indicator,
+      "metric": req.body.metric,
+      "location": req.body.location,
+      "milestones": req.body.milestones,
+      "last_modified": now.toString()
     }, function (err, record) {
       if (err) { console.error(err); return; } //need to make more robust
     });
