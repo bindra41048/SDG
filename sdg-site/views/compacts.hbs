@@ -3,7 +3,7 @@
 
 <head>
 
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -11,40 +11,41 @@
   <title>Climate Smart San Jose Monitoring Dashboard</title>
   <!-- Bootstrap core CSS-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-  <!-- Fonts for this template-->
+  <!-- Custom fonts for this template-->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 
-   <link href="/stylesheets/dataTables.bootstrap4.css" rel="stylesheet">
+  <!-- Page level plugin CSS-->
+  <link href="/stylesheets/dataTables.bootstrap4.css" rel="stylesheet">
+
+
+
   <!-- Custom styles for this template-->
   <link href="/stylesheets/dashboard.css" rel="stylesheet">
-
-
-
 </head>
 
 <body class="fixed-nav sticky-footer bg-light" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">
-    <a class="navbar-brand" href="#">Tracking Urbanization Goals: City, State</a>
+    <a class="navbar-brand" href="index.html">Tracking Urbanization Goals</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="index.html">
             <i class="fas fa-home"></i>
             <span class="nav-link-text">Dashboard</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Goals">
-          <a class="nav-link" href="/compacts/view">
+          <a class="nav-link" href="index.html">
             <i class="fas fa-bullseye"></i>
-            <span class="nav-link-text">Compacts</span>
+            <span class="nav-link-text">Goals</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarked">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="index.html">
             <i class="far fa-bookmark"></i>
             <span class="nav-link-text">Bookmarked</span>
           </a>
@@ -76,10 +77,10 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle mr-lg-2" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           {{user.nickname}}
+           Account Name
          </a>
            <div class="dropdown-menu" aria-labelledby="messagesDropdown">
-            <a class="dropdown-item" href="/logout">
+            <a class="dropdown-item" href="homepage.html">
               <strong>Logout</strong>
             </a>
 
@@ -88,10 +89,18 @@
 
     </div>
   </nav>
-
   <div class="content-wrapper">
     <div class="container-fluid">
-      
+      <!-- Breadcrumbs-->
+      <!-- <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Tables</li>
+      </ol> -->
+
+
+
 
       <!-- Compacts Table-->
       <div class="card mb-3">
@@ -102,15 +111,15 @@
 
 
           <form class = "form-inline mb-2" >
-            
+
               <div class="btn-group mr-3 mb-2">
                <a href="/new_compacts" class="btn btn-primary active">
                    <i class="fas fa-plus-square"></i> Add New
                </a>
               </div>
-         
-           
-           
+
+
+
             <div class="input-group mb-2">
                <input class="form-control" type="text" placeholder="Search for...">
                <span class="input-group-append">
@@ -120,10 +129,10 @@
                </span>
              </div>
 
-          
-           
+
+
           </form>
-          
+
 
           <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -134,49 +143,44 @@
                   <th>Progress Milestones</th>
                   <th>Last Modified</th>
                   <th>User Name </th>
-                
+
                 </tr>
               </thead>
-              
+
               <tbody>
-                
+
                 {{#compactFn compacts}}
                 <tr>
                   <td> <a href="/compacts/{{id}}">{{indicator}}</a></td>
-                  <td>&emsp;{{metric}}</td>
-                  <td>&emsp;{{milestones}}</td>
-                  <td>&emsp;{{last_modified}}</td>
-                  <td>&emsp;{{username}} </td>
-                  
-                  
+                  <td>{{metric}}</td>
+                  <td>{{milestones}}</td>
+                  <td>{{last_modified}}</td>
+                  <td>{{username}} </td>
+
+
                 </tr>
                  {{/compactFn}}
               </tbody>
             </table>
           </div>
         </div>
-        
+
     </div>
-
-
-
-    <!-- Where footer goes -->
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
-    <footer class="sticky-footer bg-light">
+    <footer class="sticky-footer">
       <div class="container">
         <div class="text-center">
           <small>Stanford SUS X CS+SocialGood</small>
         </div>
       </div>
     </footer>
-
     <!-- Scroll to Top Button-->
-    <!-- <a class="scroll-to-top rounded" href="#page-top">
+    <a class="scroll-to-top rounded" href="#page-top">
       <i class="fa fa-angle-up"></i>
-    </a> -->
+    </a>
     <!-- Logout Modal-->
-    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -193,32 +197,21 @@
         </div>
       </div>
     </div>
- -->
-
-
-
-
-
-
-
-
-
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="/javascripts/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="javascripts/jquery.min.js"></script>
+    <script src="javascripts/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
-    <script src="/javascripts/jquery.easing.min.js"></script>
+    <script src="javascripts/jquery.easing.min.js"></script>
     <!-- Page level plugin JavaScript-->
-    <script src="/javascripts/jquery.dataTables.js"></script>
-    <script src="/javascripts/dataTables.bootstrap4.js"></script>
+    <script src="javascripts/jquery.dataTables.js"></script>
+    <script src="javascripts/dataTables.bootstrap4.js"></script>
     <!-- Custom scripts for all pages-->
-    <script src="/javascripts/dashboard.min.js"></script>
+    <script src="javascripts/dashboard.min.js"></script>
 
+    <!-- Custom scripts for this page
+    <script src="js/sb-admin-datatables.min.js"></script>
+    -->
   </div>
- 
-  
 </body>
-
 
 </html>
