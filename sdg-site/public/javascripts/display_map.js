@@ -1,4 +1,5 @@
 const most_recent_year = 2016;
+const oldest_year = 2010;
 
 function createMap(lat, lng) {
   var map = L.map('map').setView([lat, lng], 11);
@@ -82,6 +83,62 @@ function createMap(lat, lng) {
     });
   }
 
+  function updateChart(props) {
+    if (!props) {
+      return;
+    }
+    years = [];
+    metric_level = [];
+    national_metric_level = [];
+    county_metric_level = [];
+    for (var year in props["metric"]) {
+      years.push(year);
+      metric_level.push(props["metric"][year]);
+      national_metric_level.push(props["national_metric"][year]);
+      county_metric_level.push(props["county_metric"][year]);
+    }
+    new Chart(document.getElementById("myChart"), {
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [
+          {
+            data: metric_level,
+            label: props.NGBRHD2,
+            fill: false,
+            borderColor: "red",
+          },
+          {
+            data: county_metric_level,
+            label: "Santa Clara County",
+            fill: false,
+            borderColor: "blue"
+          },
+          {
+            data: national_metric_level,
+            label: "US",
+            fill: false,
+            borderColor: "green"
+          },
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Poverty rate over time'
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: "% under Poverty Line"
+            }
+          }]
+        }
+      }
+    });
+  }
+
   info.onAdd = function (map) {
     this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
     this.update();
@@ -90,9 +147,10 @@ function createMap(lat, lng) {
 
   // method that we will use to update the control based on feature properties passed
   info.update = function (props) {
-    this._div.innerHTML = '<h4>Metric</h4>' +  (props ?
-      '<b>' + props.NGBRHD2 + '</b><br />' + props.metric[most_recent_year].toFixed(2) + ' percent'
-      : 'Hover over a neighborhood');
+    if (props) {
+      this._div.innerHTML = "<h4>" + props.NGBRHD2 + "</h4>";
+      updateChart(props);
+    }
   };
 
   info.addTo(map);
@@ -103,7 +161,7 @@ function createMap(lat, lng) {
    */
   xhr = new XMLHttpRequest();
   xhr.onreadystatechange = xhrHandler;
-  xhr.open("GET", "/census/sjhistory?start_year=" + most_recent_year.toString() +
+  xhr.open("GET", "/census/sjhistory?start_year=" + oldest_year.toString() +
     "&end_year=" + most_recent_year.toString() + "&tag=B17021_002E");
   xhr.send();
 
@@ -125,3 +183,5 @@ function createMap(lat, lng) {
     ).addTo(map);
   }
 }
+
+//county comparison: https://api.census.gov/data/2016/acs/acs5?get=NAME,B17021_002E&for=county:085&in=state:06
