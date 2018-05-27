@@ -3,7 +3,7 @@
 
 <head>
 
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -11,44 +11,45 @@
   <title>Climate Smart San Jose Monitoring Dashboard</title>
   <!-- Bootstrap core CSS-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-  <!-- Custom fonts for this template-->
+  <!-- Fonts for this template-->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
-  
-  <!-- Page level plugin CSS-->
-  <link href="stylesheets/dataTables.bootstrap4.css" rel="stylesheet">
 
+   <link href="/stylesheets/dataTables.bootstrap4.css" rel="stylesheet">
   <!-- Custom styles for this template-->
-  <link href="stylesheets/dashboard.css" rel="stylesheet">
+  <link href="/stylesheets/dashboard.css" rel="stylesheet">
+
+
+
 </head>
 
 <body class="fixed-nav sticky-footer bg-light" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">
-    <a class="navbar-brand" href="index.html">Tracking Urbanization Goals</a>
+    <a class="navbar-brand" href="#">Tracking Urbanization Goals: City, State</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link" href="index.html">
+          <a class="nav-link" href="">
             <i class="fas fa-home"></i>
             <span class="nav-link-text">Dashboard</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Goals">
-          <a class="nav-link" href="index.html">
+          <a class="nav-link" href="/compacts/view">
             <i class="fas fa-bullseye"></i>
-            <span class="nav-link-text">Goals</span>
+            <span class="nav-link-text">Compacts</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarked">
-          <a class="nav-link" href="index.html">
+          <a class="nav-link" href="">
             <i class="far fa-bookmark"></i>
             <span class="nav-link-text">Bookmarked</span>
           </a>
         </li>
-        
+
       </ul>
       <ul class="navbar-nav sidenav-toggler">
         <li class="nav-item">
@@ -57,10 +58,10 @@
           </a>
         </li>
       </ul>
-      
+
 
       <ul class="navbar-nav ml-auto">
-        
+
         <li class="nav-item">
           <form class="form-inline my-2 my-lg-0 mr-lg-2">
             <div class="input-group">
@@ -75,30 +76,22 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle mr-lg-2" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           Account Name
+           {{user.nickname}}
          </a>
            <div class="dropdown-menu" aria-labelledby="messagesDropdown">
-            <a class="dropdown-item" href="homepage.html">
+            <a class="dropdown-item" href="/logout">
               <strong>Logout</strong>
             </a>
-  
+
         </li>
       </ul>
 
     </div>
   </nav>
+
   <div class="content-wrapper">
     <div class="container-fluid">
-      <!-- Breadcrumbs-->
-      <!-- <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="#">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item active">Tables</li>
-      </ol> -->
-
-
-
+      
 
       <!-- Compacts Table-->
       <div class="card mb-3">
@@ -164,21 +157,26 @@
         </div>
         
     </div>
+
+
+
+    <!-- Where footer goes -->
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
-    <footer class="sticky-footer">
+    <footer class="sticky-footer bg-light">
       <div class="container">
         <div class="text-center">
           <small>Stanford SUS X CS+SocialGood</small>
         </div>
       </div>
     </footer>
+
     <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
+    <!-- <a class="scroll-to-top rounded" href="#page-top">
       <i class="fa fa-angle-up"></i>
-    </a>
+    </a> -->
     <!-- Logout Modal-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -195,25 +193,32 @@
         </div>
       </div>
     </div>
+ -->
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+
+
+
+
+
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-
-    <script src="javascripts/bootstrap.bundle.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/javascripts/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
-    <script src="javascripts/jquery.easing.min.js"></script>
+    <script src="/javascripts/jquery.easing.min.js"></script>
     <!-- Page level plugin JavaScript-->
-    <script src="javascripts/jquery.dataTables.js"></script>
-    <script src="javascripts/dataTables.bootstrap4.js"></script>
+    <script src="/javascripts/jquery.dataTables.js"></script>
+    <script src="/javascripts/dataTables.bootstrap4.js"></script>
     <!-- Custom scripts for all pages-->
-    <script src="javascripts/dashboard.min.js"></script>
+    <script src="/javascripts/dashboard.min.js"></script>
 
-    <!-- Custom scripts for this page
-    <script src="js/sb-admin-datatables.min.js"></script>
-    -->
   </div>
+ 
+  
 </body>
+
 
 </html>
