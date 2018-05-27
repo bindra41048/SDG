@@ -1,21 +1,214 @@
-<head>
-  <meta charset="UTF-8">
-  <title>SDG Site</title>
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Tracking Urbanizations Goals</title>
+  <!-- Bootstrap core CSS-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <!-- Custom fonts for this template-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+  
+  <!-- Page level plugin CSS-->
+  <link href="stylesheets/dataTables.bootstrap4.css" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="stylesheets/dashboard.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="fixed-nav sticky-footer bg-light" id="page-top">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">
+    <a class="navbar-brand" href="index.html">Tracking Urbanization Goals</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" href="index.html">
+            <i class="fas fa-home"></i>
+            <span class="nav-link-text">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Goals">
+          <a class="nav-link" href="index.html">
+            <i class="fas fa-bullseye"></i>
+            <span class="nav-link-text">Goals</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarked">
+          <a class="nav-link" href="index.html">
+            <i class="far fa-bookmark"></i>
+            <span class="nav-link-text">Bookmarked</span>
+          </a>
+        </li>
+        
+      </ul>
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      
 
-<div class="content">
-  <a href="/index">Back</a>
-  <h1>Compacts!</h1>
-  <h3>Hello {{user.nickname}} !</h3>
-  <p>Here you can view existing compacts.</p>
-  {{#compactFn compacts}}
-    <p><a href="/compacts/{{id}}">{{indicator}}</a>&emsp;{{metric}}&emsp;{{location}}</p>
-  {{/compactFn}}
-  <p>Would you like to make a new compact?</p>
-  <a href="/compacts/new">New Compact</a>
-</div>
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          <form class="form-inline my-2 my-lg-0 mr-lg-2">
+            <div class="input-group">
+              <input class="form-control" type="text" placeholder="Search for...">
+              <span class="input-group-append">
+                <button class="btn btn-secondary" type="button">
+                  <i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+          </form>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           Account Name
+         </a>
+           <div class="dropdown-menu" aria-labelledby="messagesDropdown">
+            <a class="dropdown-item" href="homepage.html">
+              <strong>Logout</strong>
+            </a>
+  
+        </li>
+      </ul>
 
+    </div>
+  </nav>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <!-- <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Tables</li>
+      </ol> -->
+
+
+
+
+      <!-- Compacts Table-->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i> Compacts</div>
+        <div class="card-body">
+
+
+
+          <form class = "form-inline mb-2" >
+            
+              <div class="btn-group mr-3 mb-2">
+               <a href="/new_compacts" class="btn btn-primary active">
+                   <i class="fas fa-plus-square"></i> Add New
+               </a>
+              </div>
+         
+           
+           
+            <div class="input-group mb-2">
+               <input class="form-control" type="text" placeholder="Search for...">
+               <span class="input-group-append">
+                 <button class="btn btn-secondary" type="button">
+                   <i class="fa fa-search"></i>
+                 </button>
+               </span>
+             </div>
+
+          
+           
+          </form>
+          
+
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Indicator</th>
+                  <th>Metric</th>
+                  <th>Progress Milestones</th>
+                  <th>Last Modified</th>
+                  <th>User Name </th>
+                
+                </tr>
+              </thead>
+              
+              <tbody>
+                
+                {{#compactFn compacts}}
+                <tr>
+                  <td> <a href="/compacts/{{id}}">{{indicator}}</a></td>
+                  <td>&emsp;{{metric}}</td>
+                  <td>&emsp;{{milestones}}</td>
+                  <td>&emsp;{{last_modified}}</td>
+                  <td>&emsp;{{username}} </td>
+                  
+                  
+                </tr>
+                 {{/compactFn}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="text-center">
+          <small>Stanford SUS X CS+SocialGood</small>
+        </div>
+      </div>
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="javascripts/jquery.min.js"></script>
+    <script src="javascripts/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="javascripts/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="javascripts/jquery.dataTables.js"></script>
+    <script src="javascripts/dataTables.bootstrap4.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="javascripts/dashboard.min.js"></script>
+
+    <!-- Custom scripts for this page
+    <script src="js/sb-admin-datatables.min.js"></script>
+    -->
+  </div>
 </body>
+
+</html>
