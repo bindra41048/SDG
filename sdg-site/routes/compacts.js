@@ -14,13 +14,15 @@ function packageRecord(record) {
   var location = record.get('location');
   var milestones = record.get('milestones');
   var last_modified = record.get('last_modified');
+  var username = record.get('username');
   return {
     'id': id,
     'indicator': indicator,
     'metric': metric,
     'location': location,
     'milestones': milestones,
-    'last_modified': last_modified
+    'last_modified': last_modified,
+    'username': username
   };
 }
 
@@ -60,7 +62,8 @@ router.post('/new',
       "location": req.body.location,
       "milestones": req.body.milestones,
       "last_modified": now.toString(),
-      "user": req.session.user.user_id
+      "user": req.session.user.user_id,
+      "username": req.body.username
     }, function (err, record) {
       if (err) { console.error(err); return; } //need to make more robust
       //console.log(record.getId());
@@ -110,7 +113,8 @@ router.post('/edit/:id',
       "metric": req.body.metric,
       "location": req.body.location,
       "milestones": req.body.milestones,
-      "last_modified": now.toString()
+      "last_modified": now.toString(),
+      "username": req.body.username
     }, function (err, record) {
       if (err) { console.error(err); return; } //need to make more robust
     });
