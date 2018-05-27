@@ -18,6 +18,8 @@ const tract_index = 5;
 const bg_index = 6;
 const neighborhood_geojson_path = "./../public/javascripts/neighborhood.json";
 
+const census_api_key = process.env.CENSUS_API;
+
 var neighborhood_geojson = require(neighborhood_geojson_path);
 
 
@@ -135,24 +137,32 @@ function get_metric_percentage(aggregated_stats) {
   return 100 * Number(metric) / Number(population);
 }
 
-function pull_yearly_data(year, callback, block_group_url, county_url, national_url, neighborhood_geometry) {
+function pull_yearly_data(res, year, callback, block_group_url, county_url, national_url, neighborhood_geometry) {
   request(block_group_url, function(error, block_resp, block_body) {
     if (error) {
-      response.status(404).end(error);
+      res.status(404).end(error);
+      return;
     } else {
       request(county_url, function(county_error, county_resp, county_body) {
         if (county_error) {
-          county_resp.status(404).end(county_error);
+          res.status(404).end(county_error);
+          return;
         } else {
           request(national_url, function(national_error, national_resp, national_body) {
             if (national_error) {
-              national_resp.status(404).end(national_error);
+              res.status(404).end(national_error);
+              return;
             } else {
-              var santa_clara_stats = JSON.parse(county_body);
-              var national_stats = JSON.parse(national_body);
+              try {
+                var santa_clara_stats = JSON.parse(county_body);
+                var national_stats = JSON.parse(national_body);
+                var block_group_stats = JSON.parse(block_body);
+              } catch(e) {
+                res.status(404).end("Error fetching Census API metrics");
+                return;
+              }
               var santa_clara_percentage = get_metric_percentage(santa_clara_stats);
               var national_percentage = get_metric_percentage(national_stats);
-              var block_group_stats = JSON.parse(block_body);
               var bg_to_metric = {};
               var nb_to_bg = {};
               var neighborhood_metrics = {};
@@ -168,6 +178,7 @@ function pull_yearly_data(year, callback, block_group_url, county_url, national_
               }, function done(err) {
                 if (err) {
                   res.status(404).end(err);
+                  return;
                 } else {
                   populate_neighborhood_metrics(nb_to_bg, neighborhood_metrics, bg_to_metric, year);
                   update_geojson(santa_clara_percentage, national_percentage, neighborhood_geometry, neighborhood_metrics, year);
@@ -209,11 +220,12 @@ router.get('/sjhistory', function(req, res, next) {
     block_group_url += "get=NAME," + tag + "," + population_tag;
     county_url += block_group_url;
     national_url += block_group_url;
-    block_group_url += "&for=block%20group:*&in=state:" + ca_fips + "%20county:" + santa_clara_fips;
+    block_group_url += "&for=block%20group:*&in=state:" + ca_fips + "%20county:" +
+      santa_clara_fips + "&key=" + census_api_key;
     county_url += "&for=county:" + santa_clara_fips + "&in=state:" +
-      ca_fips;
-    national_url += "&for=us:*";
-    pull_yearly_data(year, callback, block_group_url, county_url, national_url, neighborhood_geometry);
+      ca_fips + "&key=" + census_api_key;
+    national_url += "&for=us:*&key=" + census_api_key;
+    pull_yearly_data(res, year, callback, block_group_url, county_url, national_url, neighborhood_geometry);
   }, function (err) {
     if (err) {
       res.status(404).end(err);
