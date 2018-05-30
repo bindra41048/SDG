@@ -1,6 +1,7 @@
 function displayMilestones(milestones) {
 
   var ctx = document.getElementById("myChart").getContext('2d');
+  ctx.scale(0.5, 0.5);
   var years = [];
   var targets = [];
   for (var i = 0; i < milestones.length; i++) {
@@ -23,4 +24,7 @@ function displayMilestones(milestones) {
           }
       }
   });
+
+
+
 }
