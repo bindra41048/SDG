@@ -41,7 +41,6 @@
     }
   </style>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
 </head>
 
@@ -116,26 +115,37 @@
       <div class="container-fluid" style ="height:auto" >
 
 
-        <div class = "row"  >
+        {{#if userCanEdit}}
+          <p>Would you like to edit this compact?</p>
+          <a href="{{edit_url}}">Edit compact</a>
+          <p>Would you like to delete this compact?</p>
+          <a href="{{delete_url}}">Delete compact</a>
+        {{/if}}
 
-          <div class="card w-50" >
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Indicator</th>
+                <th>Metric</th>
+                <th>Progress Milestones</th>
+                <th>Last Modified</th>
+                <th>User Name </th>
 
-           <div class="card-body" >
-               <div id="map" style ="width:100%"></div>
-           </div>
-           <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-          </div>
+              </tr>
+            </thead>
 
-
-          <div class="card w-50 ">
-              <div class="card-body">
-                <canvas id="myChart" width="100%" height="100%"></canvas>
-                <!--<canvas id="myBarChart" width="100" height="100"></canvas> -->
-                <!--<img src="/images/graph.png"></img> -->
-              </div>
-              <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-            </div>
-          </div>
+            <tbody>
+              <tr>
+                <td> {{compact.indicator}} </td>
+                <td>{{compact.metric}}</td>
+                <td>{{compact.milestones}}</td>
+                <td>{{compact.last_modified}}</td>
+                <td>{{compact.username}} </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         </div>
       </div>

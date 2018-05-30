@@ -63,7 +63,7 @@ router.post('/new',
       "milestones": req.body.milestones,
       "last_modified": now.toString(),
       "user": req.session.user.user_id,
-      "username": req.body.username
+      "username": req.session.user.displayName
     }, function (err, record) {
       if (err) { console.error(err); return; } //need to make more robust
       //console.log(record.getId());
@@ -114,7 +114,6 @@ router.post('/edit/:id',
       "location": req.body.location,
       "milestones": req.body.milestones,
       "last_modified": now.toString(),
-      "username": req.body.username
     }, function (err, record) {
       if (err) { console.error(err); return; } //need to make more robust
     });

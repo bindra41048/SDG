@@ -2,8 +2,7 @@
 <html lang="en">
 
 <head>
-
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -14,60 +13,40 @@
   <!-- Fonts for this template-->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
   <!-- Custom styles for this template-->
-  <link href="stylesheets/dashboard.css" rel="stylesheet">
+  <link href="/stylesheets/dashboard.css" rel="stylesheet">
 
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
-  integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
-  crossorigin=""/>
-
-  <!-- Pulled for Leaflet -->
-  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
-  integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
-  crossorigin=""></script>
 
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-  <script src="javascripts/leaflet.shpfile.js"></script>
-  <script src="javascripts/shp.min.js"></script>
-  <script src="javascripts/us_counties.js"></script>
-  <script src="javascripts/display_map.js"></script>
 
 
-  <style>
-    #map {
-      height: 450px;
-    }
-  </style>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
 </head>
 
 <body class="fixed-nav sticky-footer bg-light" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">
-    <a class="navbar-brand" href="#">Tracking Urbanization Goals: City, State</a>
+    <a class="navbar-brand" href="/index">Tracking Urbanization Goals</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/index">
             <i class="fas fa-home"></i>
             <span class="nav-link-text">Dashboard</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Goals">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Compacts">
           <a class="nav-link" href="/compacts/view">
             <i class="fas fa-bullseye"></i>
             <span class="nav-link-text">Compacts</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarked">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/index">
             <i class="far fa-bookmark"></i>
             <span class="nav-link-text">Bookmarked</span>
           </a>
@@ -81,6 +60,8 @@
           </a>
         </li>
       </ul>
+
+
 
 
       <ul class="navbar-nav ml-auto">
@@ -99,7 +80,7 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle mr-lg-2" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           {{user.nickname}}
+           Account Name
          </a>
            <div class="dropdown-menu" aria-labelledby="messagesDropdown">
             <a class="dropdown-item" href="/logout">
@@ -112,37 +93,85 @@
     </div>
   </nav>
 
-  <div class="content-wrapper"  >
-      <div class="container-fluid" style ="height:auto" >
-
-
-        <div class = "row"  >
-
-          <div class="card w-50" >
-
-           <div class="card-body" >
-               <div id="map" style ="width:100%"></div>
-           </div>
-           <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+  <div class="content-wrapper ">
+      <div class="container-fluid" >
+        <div class = "card mb-3">
+          <div class = "card-header">
+            Create New Compact
           </div>
 
+          <div class = "card-body">
 
-          <div class="card w-50 ">
-              <div class="card-body">
-                <canvas id="myChart" width="100%" height="100%"></canvas>
-                <!--<canvas id="myBarChart" width="100" height="100"></canvas> -->
-                <!--<img src="/images/graph.png"></img> -->
+            <form>
+
+            <div class = "form row">
+              <div class = "form-group col-md-6">
+                <label for = "inputIdicator">Indicator Name:</label>
+                <input type="text" class = "form-control" id="inputIndicator"/>
               </div>
-              <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+
+              <div class = "form-group col-md-6">
+              <label for= "inputLocation">Location:</label>
+              <input type="text" class = "form-control" id="inputLocation"/>
+              </div>
+
             </div>
+
+
+            <div class = "form-group">
+              <label for = "inputMetric">Metric Description:</label>
+              <input type="text" class = "form-control" id= "inputMetric"/>
+            </div>
+
+
+            <div class = "form-group">
+              <label for = "milestones">Milestone(s):</label>
+              <!-- new row -->
+              <div class = "form-inline">
+                <div id = "milestone-inputs">
+                <div class = "form-inline mb-2" id = "to-be-appended">
+                  <div class = "form-group mr-3">
+                    <label for = "inputYear">Year:</label>
+                    <input type="text" class = "form-control ml-2" id = "inputYear"/>
+
+                  </div>
+                  <div class = "form-group mr-3">
+
+                    <label for = "inputTarget ">Target:</label>
+                    <input type="text" class = "form-control ml-2" id = "inputTarget"/>
+                  </div>
+                </div>
+              </div>
+
+
+                <div class = "form-group mr-3" id = "add-button">
+                  <label for = "addRow"> </label>
+                  <button type="button" class="btn btn-link">+Add another milestone</button>
+                </div>
+
+              </div>
+            </div>
+              <button type = "button" class="btn btn-primary">Submit</button>
+
+
           </div>
+
+          </form>
+
+          <div class = "card-footer ">
+            <a class="btn btn-link btn-sm float-right" href="/compacts/view">Back to All Compacts</button>
+
+          </div>
+
+
 
         </div>
-      </div>
-
-
 
       </div>
+
+
+
+  </div>
 
 
 
@@ -174,7 +203,7 @@
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+            <a class="btn btn-primary" href="/logout">Logout</a>
           </div>
         </div>
       </div>
@@ -197,23 +226,22 @@
 
 
 
-
-
-
-
-
     <!-- Core plugin JavaScript-->
-    <script src="javascripts/jquery.easing.min.js"></script>
-    <script src="javascripts/bootstrap.bundle.min.js"></script>
+    <script src="/javascripts/jquery.easing.min.js"></script>
+    <script src="/javascripts/bootstrap.bundle.min.js"></script>
     <!-- Custom scripts for all pages-->
-    <script src="javascripts/dashboard.min.js"></script>
+    <script src="/javascripts/dashboard.min.js"></script>
 
     <!-- Custom scripts for this page-->
-  </div>
-  <script>
-    createMap({{lat}}, {{lng}});
-  </script>
-</body>
+    <script type="text/javascript">
+      $("#add-button").click(function() {
+        $("#to-be-appended").clone().attr("id", "already-appended").appendTo("#milestone-inputs");
+      });
 
+    </script>
+
+
+  </div>
+</body>
 
 </html>

@@ -17,6 +17,10 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/about', function(req, res, next) {
+  res.render('about', {});
+});
+
 router.get('/login', passport.authenticate('auth0', {
   clientID: env.AUTH0_CLIENT_ID,
   domain: env.AUTH0_DOMAIN,
@@ -55,11 +59,12 @@ router.get('/index',
       title: 'SDG Site',
       lat: 37.3382,
       lng: -121.8863,
-      key: 'pk.eyJ1Ijoic3RhbmZvcmRzdXMiLCJhIjoiY2pmcjhtenJ5MGh4ZzMycDd0ajkxMHZobiJ9.JU52RKwVG17CJx1Cyj9Siw',
       user: req.session.user
     })
   }
-)
+);
+
+
 
 /*router.get('/user',
   //ensureLoggedIn('/login'),
