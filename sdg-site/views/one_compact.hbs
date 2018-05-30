@@ -1,60 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
-
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
   <title>Climate Smart San Jose Monitoring Dashboard</title>
+  <script src="/javascripts/display_milestones.js"></script>
   <!-- Bootstrap core CSS-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
   <!-- Fonts for this template-->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
   <!-- Custom styles for this template-->
-  <link href="stylesheets/dashboard.css" rel="stylesheet">
-
-
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
-  integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
-  crossorigin=""/>
-
-  <!-- Pulled for Leaflet -->
-  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
-  integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
-  crossorigin=""></script>
-
+  <!-- If you do not include this you will get the Bug-->
+  <link href="/stylesheets/dashboard.css" rel="stylesheet">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
-  <script src="javascripts/leaflet.shpfile.js"></script>
-  <script src="javascripts/shp.min.js"></script>
-  <script src="javascripts/us_counties.js"></script>
-  <script src="javascripts/display_map.js"></script>
-
-
-  <style>
-    #map {
-      height: 450px;
-    }
-  </style>
-
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 
 </head>
 
 <body class="fixed-nav sticky-footer bg-light" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">
-    <a class="navbar-brand" href="#">Climate Smart San Jose Monitoring Dashboard</a>
+    <a class="navbar-brand" href="/index">Climate Smart San Jose Monitoring Dashboard</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/index">
             <i class="fas fa-home"></i>
             <span class="nav-link-text">Dashboard</span>
           </a>
@@ -62,17 +40,17 @@
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Goals">
           <a class="nav-link" href="/compacts/view">
             <i class="fas fa-bullseye"></i>
-            <span class="nav-link-text">Compacts</span>
+            <span class="nav-link-text">Goals</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarked">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/index">
             <i class="far fa-bookmark"></i>
             <span class="nav-link-text">Bookmarked</span>
           </a>
         </li>
-
       </ul>
+
       <ul class="navbar-nav sidenav-toggler">
         <li class="nav-item">
           <a class="nav-link text-center" id="sidenavToggler">
@@ -81,9 +59,7 @@
         </li>
       </ul>
 
-
       <ul class="navbar-nav ml-auto">
-
         <li class="nav-item">
           <form class="form-inline my-2 my-lg-0 mr-lg-2">
             <div class="input-group">
@@ -98,68 +74,48 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle mr-lg-2" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           {{user.nickname}}
-         </a>
-           <div class="dropdown-menu" aria-labelledby="messagesDropdown">
-            <a class="dropdown-item" href="/logout">
+            Account Name
+          </a>
+          <div class="dropdown-menu" aria-labelledby="messagesDropdown">
+            <a class="dropdown-item" href="/">
               <strong>Logout</strong>
             </a>
-
+          </div>
         </li>
       </ul>
-
     </div>
   </nav>
-
   <div class="content-wrapper"  >
-      <div class="container-fluid" style ="height:auto" >
+      <div class="container-fluid" style ="height:auto">
+        <div class = "row">
+          <div class="card w-50" >
+             <div class="card-body" >
+               <p>{{compact.indicator}}&emsp;{{compact.metric}}&emsp;{{compact.location}}</p>
+               <p>{{compact.milestones}}</p>
+               <p>{{compact.last_modified}}</p>
+               <p>Would you like to make a new compact?</p>
+               <a href="/compacts/new">New Compact</a>
+               <p>Would you like to view all compacts?</p>
+               <a href="/compacts/view">View all compacts</a>
+               {{#if userCanEdit}}
+                 <p>Would you like to edit this compact?</p>
+                 <a href="{{edit_url}}">Edit compact</a>
+                 <p>Would you like to delete this compact?</p>
+                 <a href="{{delete_url}}">Delete compact</a>
+               {{/if}}
+             </div>
+          </div>
 
-
-        {{#if userCanEdit}}
-          <p>Would you like to edit this compact?</p>
-          <a href="{{edit_url}}">Edit compact</a>
-          <p>Would you like to delete this compact?</p>
-          <a href="{{delete_url}}">Delete compact</a>
-        {{/if}}
-
-        <div class="table-responsive">
-          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-            <thead>
-              <tr>
-                <th>Indicator</th>
-                <th>Metric</th>
-                <th>Progress Milestones</th>
-                <th>Last Modified</th>
-                <th>User Name </th>
-
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td> {{compact.indicator}} </td>
-                <td>{{compact.metric}}</td>
-                <td>{{compact.milestones}}</td>
-                <td>{{compact.last_modified}}</td>
-                <td>{{compact.username}} </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
+          <div class="card w-50" >
+            <div class="card-body" >
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
         </div>
       </div>
+  </div>
 
-
-
-      </div>
-
-
-
-    <!-- Where footer goes -->
-    <!-- /.container-fluid-->
-    <!-- /.content-wrapper-->
-    <footer class="sticky-footer bg-light">
+  <footer class="sticky-footer">
       <div class="container">
         <div class="text-center">
           <small>Stanford SUS X CS+SocialGood</small>
@@ -167,63 +123,23 @@
       </div>
     </footer>
 
-    <!-- Scroll to Top Button-->
-    <!-- <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fa fa-angle-up"></i>
-    </a> -->
-    <!-- Logout Modal-->
-    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
- -->
 
+  <!-- Bootstrap core JavaScript-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 
+  <script src="/javascripts/jquery.min.js"></script>
+  <script src="/javascripts/bootstrap.bundle.min.js"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="/javascripts/jquery.easing.min.js"></script>
+  <!-- Page level plugin JavaScript-->
+  <script src="/javascripts/jquery.dataTables.js"></script>
+  <script src="/javascripts/dataTables.bootstrap4.js"></script>
+  <!-- Custom scripts for all pages-->
+  <script src="/javascripts/dashboard.min.js"></script>
 
-
-
-
-
-
-
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-
-
-
-
-
-
-
-
-    <!-- Core plugin JavaScript-->
-    <script src="javascripts/jquery.easing.min.js"></script>
-    <script src="javascripts/bootstrap.bundle.min.js"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="javascripts/dashboard.min.js"></script>
-
-    <!-- Custom scripts for this page-->
-  </div>
   <script>
-    createMap({{lat}}, {{lng}});
+     displayMilestones({{{compact.milestones}}});
   </script>
 </body>
-
-
-</html>

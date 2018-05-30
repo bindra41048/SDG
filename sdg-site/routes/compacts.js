@@ -78,7 +78,7 @@ router.get('/:id',
     base('Compacts').find(id, function(err, record) {
       if (err) {console.error(err); return;} //need to make more robust
       var packaged_record = packageRecord(record);
-      res.render('one_compact_old', { //TODO: change back from the old template
+      res.render('one_compact', {
         compact: packaged_record,
         user: req.session.user,
         edit_url: "/compacts/edit/" + id,
