@@ -101,62 +101,50 @@
           </div>
 
           <div class = "card-body">
+            <form method="post">
+              <div class = "form row">
+                <div class = "form-group col-md-6">
+                  <label for = "inputIndicator">Indicator Name:</label>
+                  <input type="text" class = "form-control" id="inputIndicator" name="indicator"/>
+                </div>
 
-            <form>
-
-            <div class = "form row">
-              <div class = "form-group col-md-6">
-                <label for = "inputIndicator">Indicator Name:</label>
-                <input type="text" class = "form-control" id="inputIndicator" name="indicator"/>
-              </div>
-
-              <div class = "form-group col-md-6">
-              <label for= "inputLocation">Location:</label>
-              <input type="text" class = "form-control" id="inputLocation" name="location"/>
-              </div>
-
-            </div>
-
-
-            <div class = "form-group">
-              <label for = "inputMetric">Metric Description:</label>
-              <input type="text" class = "form-control" id= "inputMetric" name="metric"/>
-            </div>
-
-
-            <div class = "form-group">
-              <label for = "milestones">Milestone(s):</label>
-              <!-- new row -->
-              <div class = "form-inline">
-                <div id = "milestone-inputs">
-                <div class = "form-inline mb-2" id = "to-be-appended">
-                  <div class = "form-group mr-3">
-                    <label for = "inputYear">Year:</label>
-                    <input type="text" class = "form-control ml-2" id = "inputYear"/>
-
-                  </div>
-                  <div class = "form-group mr-3">
-
-                    <label for = "inputTarget ">Target:</label>
-                    <input type="text" class = "form-control ml-2" id = "inputTarget"/>
-                  </div>
+                <div class = "form-group col-md-6">
+                  <label for= "inputLocation">Location:</label>
+                  <input type="text" class = "form-control" id="inputLocation" name="location"/>
                 </div>
               </div>
 
-
-                <div class = "form-group mr-3" id = "add-button">
-                  <label for = "addRow"> </label>
-                  <button type="button" class="btn btn-link">+Add another milestone</button>
-                </div>
-
+              <div class = "form-group">
+                <label for = "inputMetric">Metric Description:</label>
+                <input type="text" class = "form-control" id= "inputMetric" name="metric"/>
               </div>
-            </div>
+
+              <div class = "form-group">
+                <label for = "milestones">Milestone(s):</label>
+                <div class = "form-inline">
+                  <div id = "milestone-inputs">
+                    <div class = "form-inline mb-2" id = "to-be-appended">
+                      <div class = "form-group mr-3">
+                        <label for = "inputYear">Year:</label>
+                        <input type="text" class = "form-control ml-2" id = "inputYear"/>
+                      </div>
+                      <div class = "form-group mr-3">
+                        <label for = "inputTarget ">Target:</label>
+                        <input type="text" class = "form-control ml-2" id = "inputTarget"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class = "form-group mr-3" id = "add-button">
+                    <label for = "addRow"> </label>
+                    <button type="button" class="btn btn-link">+Add another milestone</button>
+                  </div>
+                </div>
+              </div>
               <button type="submit" class="btn btn-default">Submit</button>
-
-
+            </form>
           </div>
 
-          </form>
+
 
           <div class = "card-footer ">
             <a class="btn btn-link btn-sm float-right" href="/compacts/view">Back to All Compacts</button>
