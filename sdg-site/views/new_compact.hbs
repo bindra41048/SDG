@@ -92,7 +92,12 @@
       <div class="container-fluid" >
         <div class = "card mb-3">
           <div class = "card-header">
-            Create New Compact
+            {{#if newCompact}}
+              Create New Compact
+            {{/if}}
+            {{#if editCompact}}
+              Edit Compact
+            {{/if}}
           </div>
 
           <div class = "card-body">
@@ -100,18 +105,18 @@
               <div class = "form row">
                 <div class = "form-group col-md-6">
                   <label for = "inputIndicator">Indicator Name:</label>
-                  <input type="text" class = "form-control" id="inputIndicator" name="indicator"/>
+                  <input type="text" class = "form-control" id="inputIndicator" name="indicator" value="{{compact.indicator}}"/>
                 </div>
 
                 <div class = "form-group col-md-6">
                   <label for= "inputLocation">Location:</label>
-                  <input type="text" class = "form-control" id="inputLocation" name="location"/>
+                  <input type="text" class = "form-control" id="inputLocation" name="location" value="{{compact.location}}"/>
                 </div>
               </div>
 
               <div class = "form-group">
                 <label for = "inputMetric">Metric Description:</label>
-                <input type="text" class = "form-control" id= "inputMetric" name="metric"/>
+                <input type="text" class = "form-control" id= "inputMetric" name="metric" value="{{compact.metric}}"/>
               </div>
 
               <div class = "form-group">
@@ -121,7 +126,7 @@
                     <div class = "form-inline mb-2" id = "to-be-appended">
                       <div class = "form-group mr-3">
                         <label for = "inputYear">Year:</label>
-                        <input type="text" class = "form-control ml-2" id = "inputYear"/>
+                        <input type="text" class = "form-control ml-2" id = "inputYear" value="{{compact.milestones}}"/>
                       </div>
                       <div class = "form-group mr-3">
                         <label for = "inputTarget ">Target:</label>

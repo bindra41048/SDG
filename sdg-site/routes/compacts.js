@@ -8,6 +8,17 @@ const {sanitizeBody} = require('express-validator/filter');
 
 
 function packageRecord(record) {
+  if (record === 0) {
+    return {
+      'id': '',
+      'indicator': '',
+      'metric': '',
+      'location': '',
+      'milestones': '',
+      'last_modified': '',
+      'username': ''
+    };
+  }
   var id = record.id;
   var indicator = record.get('indicator');
   var metric = record.get('metric');
@@ -49,7 +60,9 @@ router.get('/view',
 router.get('/new',
   function(req, res, next) {
     res.render('new_compact', {
-      user: req.session.user
+      compact: packageRecord(0),
+      user: req.session.user,
+      newCompact: true
   });
 });
 
@@ -94,9 +107,10 @@ router.get('/edit/:id',
     base('Compacts').find(id, function(err, record) {
       if (err) {console.error(err); return;} //need to make more robust
       if (record.get('user') === req.session.user.user_id) {
-        res.render('edit_compact', {
+        res.render('new_compact', {
           compact: packageRecord(record),
-          user: req.session.user
+          user: req.session.user,
+          editCompact: true
         });
       } else {
         res.redirect('/compacts/' + id);
