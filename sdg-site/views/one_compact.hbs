@@ -37,10 +37,10 @@
             <span class="nav-link-text">Dashboard</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Goals">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Compacts">
           <a class="nav-link" href="/compacts/view">
             <i class="fas fa-bullseye"></i>
-            <span class="nav-link-text">Goals</span>
+            <span class="nav-link-text">Compacts</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarked">
@@ -91,8 +91,7 @@
           <div class="card w-50" >
              <div class="card-body" >
                <p>{{compact.indicator}}&emsp;{{compact.metric}}&emsp;{{compact.location}}</p>
-               <p>{{compact.milestones}}</p>
-               <p>{{compact.last_modified}}</p>
+               <p>Last modified: {{compact.last_modified}}</p>
                <p>Would you like to make a new compact?</p>
                <a href="/compacts/new">New Compact</a>
                <p>Would you like to view all compacts?</p>
