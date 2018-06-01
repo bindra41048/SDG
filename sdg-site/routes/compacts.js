@@ -75,6 +75,11 @@ router.get('/new',
 router.post('/new',
   function(req, res, next) {
     var now = new Date();
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var nowString = (days[now.getDay()]);
+    nowString += ', ';
+    nowString += (months[now.getMonth()]) + ' ' + (now.getDate()) + ', ' + (now.getFullYear());
     base('Compacts').create({
       "indicator": req.body.indicator,
       "metric": req.body.metric,
@@ -82,7 +87,7 @@ router.post('/new',
       "amount": req.body.amount,
       "year": req.body.year,
       "milestones": req.body.milestones,
-      "last_modified": now.toString(),
+      "last_modified": nowString,
       "user": req.session.user.user_id,
       "username": req.session.user.displayName
     }, function (err, record) {
