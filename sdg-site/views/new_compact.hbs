@@ -115,8 +115,18 @@
               </div>
 
               <div class = "form-group">
-                <label for = "inputMetric">Metric Description:</label>
+                <label for = "inputMetric">Action:</label>
                 <input type="text" class = "form-control" id= "inputMetric" name="metric" value="{{compact.metric}}"/>
+              </div>
+
+              <div class = "form-group">
+                <label for = "inputMetric">Target Amount:</label>
+                <input type="text" class = "form-control" id= "inputAmount" name="amount" value="{{compact.amount}}"/>
+              </div>
+
+              <div class = "form-group">
+                <label for = "inputMetric">Target Year:</label>
+                <input type="text" class = "form-control" id= "inputYear" name="year" value="{{compact.year}}"/>
               </div>
 
               <div class = "form-group">
@@ -140,7 +150,9 @@
                   </div>
                 </div>
               </div>
-              <button type="submit" class="btn btn-default">Submit</button>
+              <button type="submit" class="btn btn-primary active">
+                <i class="fas fa-plus-square"></i> Submit
+              </button>
             </form>
           </div>
 
