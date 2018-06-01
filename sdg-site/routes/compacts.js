@@ -14,6 +14,8 @@ function packageRecord(record) {
       'indicator': '',
       'metric': '',
       'location': '',
+      'amount': '',
+      'year': '',
       'milestones': '',
       'last_modified': '',
       'username': ''
@@ -22,6 +24,8 @@ function packageRecord(record) {
   var id = record.id;
   var indicator = record.get('indicator');
   var metric = record.get('metric');
+  var amount = record.get('amount');
+  var year = record.get('year');
   var location = record.get('location');
   var milestones = record.get('milestones');
   var last_modified = record.get('last_modified');
@@ -31,6 +35,8 @@ function packageRecord(record) {
     'indicator': indicator,
     'metric': metric,
     'location': location,
+    'amount': amount,
+    'year': year,
     'milestones': milestones,
     'last_modified': last_modified,
     'username': username
@@ -69,12 +75,19 @@ router.get('/new',
 router.post('/new',
   function(req, res, next) {
     var now = new Date();
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var nowString = (days[now.getDay()]);
+    nowString += ', ';
+    nowString += (months[now.getMonth()]) + ' ' + (now.getDate()) + ', ' + (now.getFullYear());
     base('Compacts').create({
       "indicator": req.body.indicator,
       "metric": req.body.metric,
       "location": req.body.location,
+      "amount": req.body.amount,
+      "year": req.body.year,
       "milestones": req.body.milestones,
-      "last_modified": now.toString(),
+      "last_modified": nowString,
       "user": req.session.user.user_id,
       "username": req.session.user.displayName
     }, function (err, record) {
