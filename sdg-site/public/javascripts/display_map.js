@@ -46,7 +46,7 @@ function createMap(lat, lng) {
       opacity: 0.5,
       color: 'white',
       dashArray: '3',
-      fillOpacity: 0.7
+      fillOpacity: 0.4
     };
   }
 
