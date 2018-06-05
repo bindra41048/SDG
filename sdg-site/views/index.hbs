@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>SDG Local Reporting Platform</title>
+  <title>SDG Local Reporting Platform </title>
   <!-- Bootstrap core CSS-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
   <!-- Fonts for this template-->
@@ -48,10 +48,25 @@
 <body class="fixed-nav sticky-footer bg-light" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">
-    <a class="navbar-brand" href="#">SDG Local Reporting Platform<</a>
+    <a class="navbar-brand" href="#">SDG Local Reporting Platform</a>
+    <div class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle mr-lg-2" id="metricDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+       Metric
+     </a>
+       <div class="dropdown-menu" aria-labelledby="messagesDropdown">
+        <button class="dropdown-item" onclick="displayPoverty({{lat}}, {{lng}})">
+          <strong>Poverty</strong>
+        </button>
+        <button class="dropdown-item" onclick="displayCommute({{lat}}, {{lng}})">
+          <strong>Commute</strong>
+        </button>
+      </div>
+
+    </div>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
@@ -97,9 +112,10 @@
             </div>
           </form>
         </li>
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle mr-lg-2" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           {{user.nickname}}
+
          </a>
            <div class="dropdown-menu" aria-labelledby="messagesDropdown">
             <a class="dropdown-item" href="/logout">
@@ -120,6 +136,8 @@
         <div class = "row"  >
 
           <div class="card w-50" >
+
+            <h3> Metric: <a id="metricName"> Poverty </a> <h3> 
 
            <div class="card-body" >
                <div id="map" style ="width:100%"></div>
@@ -193,7 +211,7 @@
 
     <!-- Custom scripts for this page-->
   <script>
-    createMap({{lat}}, {{lng}});
+    displayPoverty({{lat}}, {{lng}});
   </script>
 </body>
 

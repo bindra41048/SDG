@@ -1,15 +1,19 @@
 const most_recent_year = 2016;
 const oldest_year = 2010;
 
-function createMap(lat, lng) {
-  var map = L.map('map').setView([lat, lng], 11);
-  var geojson;
-  var info = L.control();
+var map;
+
+function displayMap(lat, lng, tag, chartOptions, getColor) {
+  if (map) {
+    map.remove();
+  }
+  map = L.map('map').setView([lat, lng], 11);
 
   L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map);
-
+  var info = L.control();
+  var geojson;
   /*
    * Original county boundaries - commenting out for now to use SJ neighborhood boundaries
   var base = 'shapefiles/cb_2017_us_county_5m.zip';
@@ -20,23 +24,6 @@ function createMap(lat, lng) {
 
   // NOTE: most of code below is taken from/ adapted from Leaflet tutorial on geojson.
   // See here: https://leafletjs.com/examples/choropleth/
-
-
-  /*
-   * Determinds which color to set neighborhoods on map based on their percentage
-   * score - ranges from yellow (lower percentage) to red (higher percentage).
-   * Current percentages are set to give good spread for poverty metric.
-  */
-  function getColor(d) {
-    return d > 40 ? '#800026' :
-          d > 30  ? '#BD0026' :
-          d > 20  ? '#E31A1C' :
-          d > 15  ? '#FC4E2A' :
-          d > 10   ? '#FD8D3C' :
-          d > 5   ? '#FEB24C' :
-          d > 0   ? '#FED976' :
-                    '#FFEDA0';
-  }
 
   // sets style of map
   function style(feature) {
@@ -122,20 +109,7 @@ function createMap(lat, lng) {
           },
         ]
       },
-      options: {
-        title: {
-          display: true,
-          text: 'Poverty rate over time'
-        },
-        scales: {
-          yAxes: [{
-            scaleLabel: {
-              display: true,
-              labelString: "% under Poverty Line"
-            }
-          }]
-        }
-      }
+      options: chartOptions
     });
   }
 
@@ -162,7 +136,7 @@ function createMap(lat, lng) {
   xhr = new XMLHttpRequest();
   xhr.onreadystatechange = xhrHandler;
   xhr.open("GET", "/census/sjhistory?start_year=" + oldest_year.toString() +
-    "&end_year=" + most_recent_year.toString() + "&tag=B17021_002E");
+    "&end_year=" + most_recent_year.toString() + "&tag=" + tag);
   xhr.send();
 
   // handles HTTP responses
@@ -182,6 +156,64 @@ function createMap(lat, lng) {
       }
     ).addTo(map);
   }
+}
+
+function displayPoverty(lat, lng) {
+  document.getElementById("metricName").innerHTML = "Poverty";
+  var chartOptions = {
+    title: {
+      display: true,
+      text: 'Poverty rate over time'
+    },
+    scales: {
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: "% under Poverty Line"
+        }
+      }]
+    }
+  };
+  function colorThresholds(d) {
+      return d > 40 ? '#800026' :
+            d > 30  ? '#BD0026' :
+            d > 20  ? '#E31A1C' :
+            d > 15  ? '#FC4E2A' :
+            d > 10   ? '#FD8D3C' :
+            d > 5   ? '#FEB24C' :
+            d > 0   ? '#FED976' :
+                      '#FFEDA0';
+  };
+  displayMap(lat, lng, "B17021_002E", chartOptions, colorThresholds);
+}
+
+function displayCommute(lat, lng) {
+  document.getElementById("metricName").innerHTML = "Commute";
+  var chartOptions = {
+    title: {
+      display: true,
+      text: 'Commute mode over time'
+    },
+    scales: {
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: "% of population driving to work alone"
+        }
+      }]
+    }
+  };
+  function colorThresholds(d) {
+      return d > 50 ? '#800026' :
+            d > 46  ? '#BD0026' :
+            d > 42  ? '#E31A1C' :
+            d > 38  ? '#FC4E2A' :
+            d > 34   ? '#FD8D3C' :
+            d > 30   ? '#FEB24C' :
+            d > 26   ? '#FED976' :
+                      '#FFEDA0';
+  };
+  displayMap(lat, lng, "B08301_003E", chartOptions, colorThresholds,)
 }
 
 //county comparison: https://api.census.gov/data/2016/acs/acs5?get=NAME,B17021_002E&for=county:085&in=state:06
